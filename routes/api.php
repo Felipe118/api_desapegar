@@ -21,6 +21,6 @@ Route::post('/register', [AuthController::class,'register']);
 Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
 //Route::apiResource('product','ProductController');
 //Route::apiResource('addresses',CategoryController::class);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         return response()->json('teste',201);
     }
 
@@ -29,7 +30,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
         $category =  $this->category->create([
                     'name_category' => $request->name_category
@@ -46,7 +47,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = $this->category->find($id);
+        if($category === null){
+            return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
+        }
+        return response()->json($category, 201);
     }
 
     /**
@@ -56,9 +61,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryStoreRequest $request, $id)
     {
-        //
+        $category = $this->category->find($id);
+        if($category === null) {
+            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404);
+        }
+
+     
+       $category->name_category = $request->name_category;
+       $category->save();
+       return response()->json($category, 200);
     }
 
     /**
@@ -69,6 +82,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = $this->category->find($id);
+        if($category === null){
+            return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
+        }
+        $category->delete();
+        return response()->json(['message' => 'A categoria foi removida com sucesso'], 200) ;
+
     }
 }
