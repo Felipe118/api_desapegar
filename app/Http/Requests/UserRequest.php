@@ -29,9 +29,9 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        return [ 
             'name' => ['required','min:3'],
-            'phone' => ['required'],
+            'password' => 'required',
             'email' => ['required','regex:/^.+@.+$/i',Rule::unique('users')->ignore($this->user->id)]
         ];
     }
@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => 'O campo :attibute é obrigatório',
+            'required' => 'O campo :attribute é obrigatório',
             'name.min' => 'O nome deve ter mais do que três caracteres',
             'email.unique' => 'O e-mail já foi cadastrado',
             'email.regex' => 'Digite um formato de e-mail válido'

@@ -17,9 +17,13 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->string('address');
             $table->string('district');
-            $table->string('street',30);
+            $table->string('street',45);
             $table->string('cep',10);
+            $table->string('number');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -30,6 +34,9 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
+        Schema::table('addresses', function (Blueprint  $table) {
+            $table->dropForeign('addresses_user_id_foreign');
+        });
         Schema::dropIfExists('addresses');
     }
 }

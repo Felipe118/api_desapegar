@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\Api\CategoryController;
 |
 */
 Route::post('/login', [AuthController::class,'login']);
-Route::post('/register', [AuthController::class,'register']);
+Route::post('/register', [UserController::class,'register'])->name('register');
 
 Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
 //Route::apiResource('product','ProductController');

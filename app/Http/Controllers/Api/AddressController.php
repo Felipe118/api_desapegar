@@ -3,50 +3,44 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Http\Requests\AddressRequest;
+use App\Models\Address;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
-{ 
-    public function __construct(User $user)
+class AddressController extends Controller
+{
+
+    public function __construct(Address $address)
     {
-        $this->user = $user;
+        $this->address = $address;
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response 
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
     }
 
-    public function register(UserRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(AddressRequest $request)
     {
-        $user = $this->user->create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request['password']),
-        ]);
-
-        return  response()->json($user,201);
+       $address = $this->address->create([
+            'address'=>$request->address,
+            'district' => $request->district,
+            'street' => $request->street,
+            
+       ]);
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(UserRequest $request)
-    // {
-       
-    // }
-
-    /** 
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
