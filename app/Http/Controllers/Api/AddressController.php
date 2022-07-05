@@ -21,7 +21,8 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
+       $address = $this->address->All();
+       return  response()->json($address,200);
     }
 
     /**
@@ -35,9 +36,13 @@ class AddressController extends Controller
        $address = $this->address->create([
             'address'=>$request->address,
             'district' => $request->district,
+            'cep' => $request->cep,
             'street' => $request->street,
-            
+            'number' => $request->number,
+            'user_id' => $request->user_id 
        ]);
+
+       return  response()->json($address,201);
     }
 
     /**
@@ -48,7 +53,11 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        //
+        $address = $this->address->find($id);
+        if(!isset($address)){
+            return response()->json(['erro' => 'Endereço pesquisado não existe'], 404) ;
+        }
+        return response()->json($address, 201);
     }
 
     /**
@@ -58,9 +67,22 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AddressRequest $request, $id)
     {
-        //
+        $address = $this->address->find($id); 
+        if(!isset($address)){
+            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404) ;
+        }
+
+        $address->address = $request->address;
+        $address->district = $request->district;
+        $address->cep = $request->cep;
+        $address->street = $request->street;
+        $address->number = $request->number;
+        $address->user_id = $request->user_id;
+        $address->save();
+
+        return response()->json($address, 200);
     }
 
     /**
@@ -71,6 +93,12 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $address = $this->address->find($id);
+        if(!isset($address)){
+            return response()->json(['erro' => 'Rercurso pesquisado não existe'], 404) ;
+        }
+        $address->delete();
+        return response()->json(['message' => 'O endereço foi removido com sucesso'], 200) ;
+
     }
 }

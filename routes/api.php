@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -21,7 +22,7 @@ Route::post('/register', [UserController::class,'register'])->name('register');
 
 Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
 //Route::apiResource('product','ProductController');
-//Route::apiResource('addresses',CategoryController::class);
+Route::apiResource('address',AddressController::class);
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
