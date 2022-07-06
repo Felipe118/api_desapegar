@@ -57,7 +57,7 @@ class AddressController extends Controller
         if(!isset($address)){
             return response()->json(['erro' => 'Endereço pesquisado não existe'], 404) ;
         }
-        return response()->json($address, 201);
+        return response()->json($address, 200);
     }
 
     /**
@@ -96,7 +96,7 @@ class AddressController extends Controller
         $address = $this->address->find($id);
         if(!isset($address)){
             return response()->json(['erro' => 'Rercurso pesquisado não existe'], 404) ;
-        }
+        } 
         $address->delete();
         return response()->json(['message' => 'O endereço foi removido com sucesso'], 200) ;
 
