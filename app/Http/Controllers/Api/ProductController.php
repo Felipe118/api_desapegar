@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct(Product $product)
+    public function __construct(Product $product, Image $image)
     {
         $this->product = $product;
+        $this->image = $image;
     }
     /**
      * Display a listing of the resource.
@@ -31,16 +33,29 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = $this->product->create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image' => 'image',
-            'user_id' => $request->user_id,
-            'category_id' => $request->category_id
-        ]);
+            dd($request->file('image'));
+            $product = $this->product->create([
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'user_id' => $request->user_id,
+                'category_id' => $request->category_id
+            ]);
 
-        return response()->json($product,201);
+            if($request->file('image')){
+                foreach($request->file('') as $images){
+                    $image = $images;
+                    $nameImage = $image->store('imagens', 'public');
+
+                    $this->image->create([
+                        'path' => $nameImage,
+                        'product_id' =>  $product->id
+                    ]);
+
+                }
+            }
+
+         return response()->json($product,201);
     }
 
     /**

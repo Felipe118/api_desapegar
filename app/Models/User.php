@@ -59,7 +59,7 @@ class User extends Authenticatable implements  JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims() 
     {
         return [];
     }
@@ -67,5 +67,10 @@ class User extends Authenticatable implements  JWTSubject
     public function address()
     {
         return $this->hasOne('App\Models\Address');
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product');
     }
 }
