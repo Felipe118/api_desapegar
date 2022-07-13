@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -33,7 +34,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-            dd($request->file('image'));
+            // dd($request->all());
             $product = $this->product->create([
                 'name' => $request->name,
                 'price' => $request->price,
@@ -43,7 +44,7 @@ class ProductController extends Controller
             ]);
 
             if($request->file('image')){
-                foreach($request->file('') as $images){
+                foreach($request->file('image') as $images){
                     $image = $images;
                     $nameImage = $image->store('imagens', 'public');
 
@@ -55,7 +56,7 @@ class ProductController extends Controller
                 }
             }
 
-         return response()->json($product,201);
+         return response()->json($product,201); 
     }
 
     /**
@@ -67,9 +68,11 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->product->find($id);
-        if(isset($product)){
+        // dd($product);
+        if(!isset($product)){
             return response()->json(['erro' => 'Produto pesquisado não existe']);
         }
+        $product = $product->with('images')->findOrFail($id);
         return response()->json($product, 200);
     }
 
@@ -82,15 +85,55 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+     
         $product = $this->product->find($id);
-        if(isset($product)){
+      
+        // dd($request->file('image'));
+        if(!isset($product)){
             return response()->json(['erro' => 'Produto pesquisado não existe']);
         }
 
+        if($request->file('image')){
+            $products = $product->with('images')->findOrFail($id);
+            foreach($products->images as $images){
+               Storage::disk('public')->delete($images->path);
+            }
+        }
+
+        //$product->fill($request->all());
+
+     
+
+        if($request->file('image')){
+            foreach($request->file('image') as $images){
+                //Storage::disk('public')->delete($images->path);
+                $image = $images;
+                $nameImage = $image->store('imagens', 'public');
+
+                $this->image->create([
+                    'path' => $nameImage,
+                    'product_id' =>  $product->id
+                ]);
+
+            }
+        }
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
-        $product->image = 'image';
+        $product->user_id =  $request->user_id;
+        $product->category_id =  $request->category_id;
+        $product->save();
+        // $this->product->update([
+        //     'name' => $request->name,
+        //     'price' => $request->price,
+        //     'description' => $request->description,
+        //     'user_id' => $request->user_id,
+        //     'category_id' => $request->category_id
+        // ]);
+
+        return response()->json($product,201); 
+
+       
 
     }
 

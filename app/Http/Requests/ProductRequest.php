@@ -27,7 +27,8 @@ class ProductRequest extends FormRequest
             'name' => ['required', 'min:3'],
             'price' => 'required',
             'description' => 'required',
-            // 'image' => ['required','file'],
+            'image' => 'required',
+            'image.*' => ['required','file','mimes:jpg,png'],
             'user_id' => 'required',
             'category_id' => 'required'
         ];
@@ -38,8 +39,8 @@ class ProductRequest extends FormRequest
         return [
             'required' => 'O :attribute é obrigatório',
             'name.min' => 'O nome do produto deve conter mais do que 3 caracteres',
-            // 'image.required' => 'Deve conter pelo menos uma imagem do produto!',
-            // 'image.mimes' => 'O arquivo deve ser uma imagem do tipo .png ou .jpg',
+            'image.required' => 'Deve conter pelo menos uma imagem do produto!',
+            'image.mimes' => 'O arquivo deve ser uma imagem do tipo .png ou .jpg',
             'category_id.required' => 'A categoria é obrigatório '
         ];
     }
