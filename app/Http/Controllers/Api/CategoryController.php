@@ -20,8 +20,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-        return response()->json('teste',201);
+    {   $category =  $this->category->All();
+        return response()->json($category,201);
     }
 
     /**
@@ -61,7 +61,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryStoreRequest $request, $id)
+    public function update(CategoryStoreRequest $request, $id) 
     {
         $category = $this->category->find($id);
         if($category === null) {

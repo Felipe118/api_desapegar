@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -23,7 +24,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->product->with('images')->get();
+       
+        return response()->json($products,201);
+
     }
 
     /**
@@ -97,6 +101,7 @@ class ProductController extends Controller
             $products = $product->with('images')->findOrFail($id);
             foreach($products->images as $images){
                Storage::disk('public')->delete($images->path);
+               DB::table('images')->where('product_id', $id)->delete();
             }
         }
 
@@ -138,7 +143,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage. 
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -146,9 +151,17 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = $this->product->find($id);
-        if(isset($product)){
+        if(!isset($product)){
             return response()->json(['erro' => 'Recurso pesquisado não existe']);
         }
+        $products = $product->with('images')->findOrFail($id);
+        if(isset($products)){
+            foreach($products->images as $images){
+                Storage::disk('public')->delete($images->path);
+                DB::table('images')->where('product_id', $id)->delete();
+             }
+        }
+      
         $product->delete();
         return response()->json(['message' => 'O produto foi removido com sucesso'], 200) ;
     }
