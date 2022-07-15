@@ -35,16 +35,7 @@ class UserController extends Controller
         return  response()->json($user,201);
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(UserRequest $request)
-    // {
-       
-    // }
+
 
     /** 
      * Display the specified resource.
@@ -66,7 +57,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = $this->user->find($id);
+
+        if(!isset($user)){
+            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404) ;
+        }
+
+        //$user->name = 
     }
 
     /**
