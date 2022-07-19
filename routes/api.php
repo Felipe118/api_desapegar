@@ -21,9 +21,13 @@ use App\Http\Controllers\Api\UserController;
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/register', [UserController::class,'register'])->name('register');
 
-Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
-Route::apiResource('product',ProductController::class);
-Route::apiResource('address',AddressController::class);
+Route::prefix('v1')->middleware('jwt.auth')->group(function(){
+    Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
+    Route::apiResource('product',ProductController::class);
+    Route::apiResource('address',AddressController::class);
+});
+
+
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
