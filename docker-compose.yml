@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+    # image project
+    app:
+        container_name: api_desapegax-laravel-8
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: api_desapegax/laravel8-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks: 
+            - laravel-8
+    
+    # nginx
+    nginx:
+        container_name: app-nginx
+        image: nginx:alpine
+        restart: unless-stopped
+        ports: 
+            - "8989:80"
+        volumes: 
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks: 
+            - laravel-8
+
+    # db mysql
+    mysql:
+        container_name: app-mysql
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment: 
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes: 
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports: 
+            - "3388:3306"
+        networks: 
+            - laravel-8
+
+    # queue
+    queue:
+        container_name: app-queue
+        image: api_desapegax/laravel8-app
+        restart: unless-stopped
+        command: "php artisan queue:work"
+        volumes: 
+            - ./:/var/www
+        depends_on: 
+            - app
+        networks: 
+            - laravel-8
+
+networks: 
+    laravel-8:
+        driver: bridge
