@@ -1,63 +1,75 @@
 version: "3.7"
-
 services:
     # image project
-    app:
-        container_name: api_desapegax-laravel-8
-        build:
-            context: .
+    laravel_8:
+        build: 
+            args: 
+                user: luis
+                uid: 1000
+            context: ./
             dockerfile: Dockerfile
-        image: api_desapegax/laravel8-app
+        image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
             - ./:/var/www
+        depends_on: 
+            - redis
+            - queue
         networks: 
-            - laravel-8
+            - laravel-eti
     
     # nginx
     nginx:
-        container_name: app-nginx
         image: nginx:alpine
         restart: unless-stopped
         ports: 
-            - "8989:80"
+            - 8081:80
         volumes: 
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks: 
-            - laravel-8
+            - laravel-eti
 
     # db mysql
     mysql:
-        container_name: app-mysql
-        image: mysql:5.7.22
+        image: mysql:8.0.30
         restart: unless-stopped
         environment: 
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
             MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
+            # MYSQL_USER: ${DB_USERNAME}
         volumes: 
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports: 
-            - "3388:3306"
+            - 3388:3306
         networks: 
-            - laravel-8
+            - laravel-eti
 
     # queue
     queue:
-        container_name: app-queue
-        image: api_desapegax/laravel8-app
+        build: 
+            args: 
+                user: luis
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
         restart: unless-stopped
         command: "php artisan queue:work"
         volumes: 
             - ./:/var/www
         depends_on: 
-            - app
+            - redis
         networks: 
-            - laravel-8
+            - laravel-eti
+
+    # redis
+    redis:
+        image: redis:latest
+        networks: 
+            - laravel-eti
 
 networks: 
-    laravel-8:
+    laravel-eti:
         driver: bridge

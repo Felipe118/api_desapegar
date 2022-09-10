@@ -1,12 +1,12 @@
 <template>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example INDEXs</div>
+                    <div class="card-header">HOME Component</div>
 
                     <div class="card-body">
-                       Index FF
+                        I'm an example HOME.
                     </div>
                 </div>
             </div>
@@ -17,7 +17,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Component INDEX.')
+            console.log('Component Home.')
         }
     }
 </script>

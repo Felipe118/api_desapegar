@@ -27,6 +27,8 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function(){
     Route::apiResource('address',AddressController::class);
 });
 
+Route::get('/',);
+
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
