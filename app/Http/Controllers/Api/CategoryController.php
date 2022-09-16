@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Repository\CategoryRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function __construct(Category $category)
+    public function __construct(CategoryRepository $category)
     {
-        $this->category = $category;
+        $this->repository = $category;
     }
 
     /**
@@ -19,9 +21,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
-    {   $category =  $this->category->All();
-        return response()->json($category,201);
+    {   $category =  $this->repository->getAllCategories();
+        return CategoryResource::collection($category);
     }
 
     /**
@@ -32,11 +35,13 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request)
     {
-        $category =  $this->category->create([
-                    'name_category' => $request->name_category
-                ]);
+        $category = $this->repository->store($request->all());
+        return new CategoryResource($category);
+        // $category =  $this->category->create([
+        //             'name_category' => $request->name_category
+        //         ]);
 
-        return  response()->json($category,201);
+        // return  response()->json($category,201);
     }
 
     /**
@@ -47,11 +52,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = $this->category->find($id);
-        if($category === null){
-            return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
-        }
-        return response()->json($category, 201);
+        $category = $this->repository->getCategory($id);
+        return new CategoryResource($category);
     }
 
     /**
@@ -63,15 +65,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryStoreRequest $request, $id) 
     {
-        $category = $this->category->find($id);
-        if($category === null) {
-            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404);
-        }
-
-     
-       $category->name_category = $request->name_category;
-       $category->save();
-       return response()->json($category, 200);
+       $category = $this->repository->update($request->all(), $id);
+        return new CategoryResource($category);
     }
 
     /**
@@ -82,12 +77,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = $this->category->find($id);
-        if($category === null){
-            return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
-        }
-        $category->delete();
-        return response()->json(['message' => 'A categoria foi removida com sucesso'], 200) ;
-
+         $this->repository->delete($id);
     }
 }

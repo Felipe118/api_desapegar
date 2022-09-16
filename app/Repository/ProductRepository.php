@@ -6,8 +6,18 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function getAll()
+    public function __construct(Product $product)
+    { 
+        $this->enity = $product;
+    }
+    
+    public function getAllProducts()
     {
-        return Product::all();
+        return  $this->enity->get();
+    }
+
+    public function store()
+    {
+
     }
 }
