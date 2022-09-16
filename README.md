@@ -1,4 +1,4 @@
-# :car: Api desapegar
+#  Api desapegar
 Api desapegar foi feita utilizando o Laravel, que tem como tema um sistema de estilo da OLX onde o cliente anuncia seus produtos para troca ou venda. Api possí  autentinticação JWT.
 
 ## Projeto
@@ -11,8 +11,9 @@ Api desapegar foi feita utilizando o Laravel, que tem como tema um sistema de es
 
 
  ## Construindo 
-- [x] - Sistema de autenticação de usuários
+- [X] - Sistema de autenticação de usuários
 - [X] - Cadastro das informações
+- [X] - Registro de imagens dos produtos
 - [ ] - Envio de Email para confirmação de email
 - [ ] - Envio de Email para reset de senha
 - [ ] - Front-End
