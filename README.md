@@ -9,6 +9,8 @@ Api desapegar foi feita utilizando o Laravel, que tem como tema um sistema de es
 - `Autenticação`: Autenticação via JWT.
 - `Cadastro`: Cadastro de produtos
 
+## Sobre 
+- A Api foi está sendo construida utilizado as melhores práticas desenvolvimento de software, como SOLID, Design Patterns e TDD .
 
  ## Construindo 
 - [X] - Sistema de autenticação de usuários

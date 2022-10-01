@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
-
+ 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,13 +18,15 @@ use App\Http\Controllers\Api\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/login', [AuthController::class,'login']);
+Route::post('/login', [AuthController::class,'login'])->name('api.login');
 Route::post('/register', [UserController::class,'register'])->name('register');
 
 Route::middleware('jwt.auth')->group(function(){
     Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
     Route::apiResource('product',ProductController::class);
     Route::apiResource('address',AddressController::class);
+    Route::post('/logout', [AuthController::class,'logout']);
+    Route::get('/me', [AuthController::class,'me']);
 });
 
 Route::get('/',function (){
