@@ -37,11 +37,6 @@ class CategoryController extends Controller
     {
         $category = $this->repository->store($request->all());
         return new CategoryResource($category);
-        // $category =  $this->category->create([
-        //             'name_category' => $request->name_category
-        //         ]);
-
-        // return  response()->json($category,201);
     }
 
     /**

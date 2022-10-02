@@ -11,6 +11,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     use UtilsTrait;
+    
     /**
      * A basic feature test example.
      *
@@ -47,7 +48,7 @@ class AuthTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_logout()
+    public function test_logout_with_user_logged()
     {
         $token = $this->createTokenUser();
         $response = $this->postJson('/api/logout',[],[

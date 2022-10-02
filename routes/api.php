@@ -22,11 +22,11 @@ Route::post('/login', [AuthController::class,'login'])->name('api.login');
 Route::post('/register', [UserController::class,'register'])->name('register');
 
 Route::middleware('jwt.auth')->group(function(){
-    Route::apiResource('categories','\App\Http\Controllers\Api\CategoryController');
+    Route::apiResource('categories',CategoryController::class);
     Route::apiResource('product',ProductController::class);
     Route::apiResource('address',AddressController::class);
     Route::post('/logout', [AuthController::class,'logout']);
-    Route::get('/me', [AuthController::class,'me']);
+    Route::get('/me', [AuthController::class,'me']); 
 });
 
 Route::get('/',function (){
