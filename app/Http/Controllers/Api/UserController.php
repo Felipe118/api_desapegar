@@ -4,48 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Http\Resources\UserResource;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 { 
-    public function __construct(User $user)
+    public function __construct(UserRepository $user)
     {
-        $this->user = $user;
+        $this->repository = $user;
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response 
+     * @return UserResource
      */
     public function index()
     {
-        //
-    }
+        $user = $this->repository->findAll();
 
-    public function register(UserRequest $request)
-    {
-        $user = $this->user->create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request['password']),
-        ]);
+        return UserResource::collection($user); 
+    } 
 
-        return  response()->json($user,201);
-    }
-
-
-
-    /** 
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /**
+     * Register from users
+     * 
+     * @return UserResource
      */
-    public function show($id)
+
+    public function register(UserRequest $request) 
     {
-        //
+        $user = $this->repository->register($request->all());
+
+        return  new UserResource($user);
     }
 
     /**
@@ -62,8 +53,6 @@ class UserController extends Controller
         if(!isset($user)){
             return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404) ;
         }
-
-        //$user->name = 
     }
 
     /**
