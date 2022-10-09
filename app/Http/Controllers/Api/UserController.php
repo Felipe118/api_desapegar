@@ -44,25 +44,14 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
-    public function update(Request $request, $id)
+    public function update($id,Request $request)
     {
-        $user = $this->user->find($id);
+        $user = $this->repository->update($id, $request->all());
 
-        if(!isset($user)){
-            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404) ;
-        }
+        return new UserResource($user);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

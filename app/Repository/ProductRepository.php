@@ -11,12 +11,12 @@ class ProductRepository
 {
     public function __construct(Product $product)
     { 
-        $this->enity = $product;
+        $this->model = $product;
     }
     
     public function getAllProducts()
     {
-        return  $this->enity->get();
+        return  $this->model->get();
     }
 
     /**
@@ -26,7 +26,7 @@ class ProductRepository
 
     public function getProduct($id)
     {
-        return $this->enity->findOrFail($id)->with('images')->get();
+        return $this->model->findOrFail($id)->with('images')->get();
     }
 
     /**
@@ -87,7 +87,7 @@ class ProductRepository
 
     public function update(array $data, array $images, $id)
     {
-        $product = $this->enity->find($id);
+        $product = $this->model->find($id);
         if($product == null){
             return response()->json(['message' => 'Categoria não encontrada'], 404);
         }
@@ -102,7 +102,7 @@ class ProductRepository
 
     public function delete($id)
     {
-        $product = $this->enity->find($id);
+        $product = $this->model->find($id);
         if($product === null){
             return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
         }

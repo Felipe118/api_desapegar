@@ -8,22 +8,22 @@ class CategoryRepository
 {
     public function __construct(Category $category)
     { 
-        $this->entity = $category; 
+        $this->model = $category; 
     }
     
     public function getAllCategories()
     {
-        return  $this->entity->get();
+        return  $this->model->get();
     }
 
     public function getCategory($id) :Category
     {
-        return $this->entity->findOrFail($id);
+        return $this->model->findOrFail($id);
     }
    
     public function store(array $data) :Category
     {
-        $category =  $this->entity->create([
+        $category =  $this->model->create([
             'name_category' => $data['name_category'],
         ]);
         return $category;
@@ -41,10 +41,9 @@ class CategoryRepository
     public function delete($id)
     {
         $category = $this->getCategory($id);
-        // if($category === null){
-        //     return response()->json(['erro' => 'Categoria pesquisado não existe'], 404) ;
-        // }
+      
         $category->delete();
+        
         return response()->json(['message' => 'Categoria deletada com sucesso'], 200);
     }
 }
