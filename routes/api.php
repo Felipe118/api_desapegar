@@ -26,7 +26,8 @@ Route::middleware('jwt.auth')->group(function(){
     Route::apiResource('product',ProductController::class);
     Route::apiResource('address',AddressController::class);
     Route::post('/logout', [AuthController::class,'logout']);
-    Route::get('/me', [AuthController::class,'me']); 
+    Route::get('/me', [AuthController::class,'me']);
+    Route::post('/updateUser/{id}', [UserController::class, 'update']);
 });
 
 Route::get('/',function (){
