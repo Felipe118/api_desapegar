@@ -33,9 +33,7 @@ class CategoryTest extends TestCase
 
     public function test_validations_category()
     {
-        $payload = [
-            'name_category' => '',
-        ];
+        $payload = [];
         $response = $this->postJson('/api/categories',$payload,$this->defaultHeaders()); 
         $response->assertStatus(422);
         $response->assertJsonPath('errors.name_category.0','O nome da categoria é obrigatório');

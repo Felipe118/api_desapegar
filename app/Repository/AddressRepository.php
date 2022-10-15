@@ -16,8 +16,16 @@ class AddressRepository
         return  $this->model->get();
     }
 
+    public function getAddress($id)
+    {
+        $address = $this->model->findOrFail($id);
+
+        return $address;
+    }
+
     public function store(array $data) :Address
     {
+        dd($data);
         $store = $this->model->create([
             'address' => $data['address'],
             'city' => $data['city'],
@@ -34,9 +42,7 @@ class AddressRepository
     public function update(array $data, $id) :Address
     {
         $address = $this->model->findOrFail($id);
-        // if($address == null){
-        //  return response()->json(['message' => 'Endereço não encontrado'], 404);
-        // }
+     
         $address->update($data);
         return $address;
     }

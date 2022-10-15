@@ -35,7 +35,7 @@ class AddressController extends Controller
     public function store(AddressRequest $request)
     {
        $address = $this->repository->store($request->all());
-
+ 
        return new AddressResource($address);
     }
 
@@ -47,11 +47,10 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        $address = $this->address->find($id);
-        if(!isset($address)){
-            return response()->json(['erro' => 'Endereço pesquisado não existe'], 404) ;
-        }
-        return response()->json($address, 200);
+        
+        $address = $this->repository->getAddress($id);
+
+        return  AddressResource::collection($address);
     }
 
     /**
@@ -63,20 +62,9 @@ class AddressController extends Controller
      */
     public function update(AddressRequest $request, $id)
     {
-        $address = $this->address->find($id); 
-        if(!isset($address)){
-            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404) ;
-        }
-
-        $address->address = $request->address;
-        $address->district = $request->district;
-        $address->cep = $request->cep;
-        $address->street = $request->street;
-        $address->number = $request->number;
-        $address->user_id = $request->user_id;
-        $address->save();
-
-        return response()->json($address, 200);
+        $address = $this->repository->update($id,$request->all());
+ 
+       return new AddressResource($address);
     }
 
     /**
@@ -87,12 +75,9 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        $address = $this->address->find($id);
-        if(!isset($address)){
-            return response()->json(['erro' => 'Rercurso pesquisado não existe'], 404) ;
-        } 
-        $address->delete();
-        return response()->json(['message' => 'O endereço foi removido com sucesso'], 200) ;
+        $this->repository->delete($id);
+
+        return  response()->json('message','Endereço deletado com sucesso!');
 
     }
 }
