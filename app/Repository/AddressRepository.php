@@ -23,9 +23,8 @@ class AddressRepository
         return $address;
     }
 
-    public function store(array $data) :Address
+    public function store(array $data)
     {
-        dd($data);
         $store = $this->model->create([
             'address' => $data['address'],
             'city' => $data['city'],

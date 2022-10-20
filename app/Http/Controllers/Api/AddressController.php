@@ -35,7 +35,7 @@ class AddressController extends Controller
     public function store(AddressRequest $request)
     {
        $address = $this->repository->store($request->all());
- 
+       
        return new AddressResource($address);
     }
 
