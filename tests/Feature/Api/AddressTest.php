@@ -26,7 +26,7 @@ class AddressTest extends TestCase
     public function test_authenticated_create()
     {
        
-        $user = User::factory()->create();
+        //$user = User::factory()->create();
         // dd($user);
         // $payload = [
         //     'address' => 'Rua 5 casa 2 lote 5 ',

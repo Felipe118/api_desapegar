@@ -30,6 +30,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - ![image](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D)
 - ![image](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)
 - ![image](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+- ![image](https://img.shields.io/badge/Docker-11F1EF?style=for-the-badge&logo=docker&logoColor=white)
+
 
 ### Status
  <h4> 
