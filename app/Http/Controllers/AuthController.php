@@ -6,11 +6,6 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-
-//    public function register()
-//    {
-//
-//    }
     public function login(Request $request)
     {
         $credenciais = $request->all(['email', 'password']); //[]
@@ -23,12 +18,7 @@ class AuthController extends Controller
 
         } else { //erro de usuário ou senha
             return response()->json(['erro' => 'Usuário ou senha inválido!'], 403);
-
-            //401 = Unauthorized -> não autorizado
-            //403 = forbidden -> proibido (login inválido)
         }
-
-        return 'Login';
     }
 
     public function logout()

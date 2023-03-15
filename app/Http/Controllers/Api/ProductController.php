@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductRepository $product)
-    {
-        $this->repository = $product;
-    }
+    public function __construct(
+     protected  ProductRepository $repository,
+     protected Product $product
+    ){}
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +28,6 @@ class ProductController extends Controller
         $products = $this->product->with('images')->get();
        
         return response()->json($products,201);
-
     }
 
     /**
@@ -79,6 +78,5 @@ class ProductController extends Controller
         $product = $this->repository->delete($id);
 
         return $product;
-        
     }
 }

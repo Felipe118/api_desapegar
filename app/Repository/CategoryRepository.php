@@ -6,10 +6,9 @@ use App\Models\Category;
 
 class CategoryRepository
 {
-    public function __construct(Category $category)
-    { 
-        $this->model = $category; 
-    }
+    public function __construct(
+       protected Category $model
+    ){}
     
     public function getAllCategories()
     {

@@ -6,10 +6,9 @@ use App\Models\Address;
 
 class AddressRepository
 {
-    public function __construct(Address $address)
-    {
-        $this->model = $address;
-    }
+    public function __construct(
+       protected Address $model
+    ){}
 
     public function getAllAddresses()
     {

@@ -10,10 +10,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 { 
-    public function __construct(UserRepository $user)
-    {
-        $this->repository = $user;
-    }
+    public function __construct(
+        protected UserRepository $repository
+    ){}
     /**
      * Display a listing of the resource.
      *

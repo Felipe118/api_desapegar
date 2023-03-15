@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductRepository
 {
-    public function __construct(Product $product)
-    { 
-        $this->model = $product;
-    }
+    public function __construct(
+      protected Product $model
+    ){}
     
     public function getAllProducts()
     {
@@ -37,7 +36,7 @@ class ProductRepository
 
     public function store(array $data,array $images) :Product
     {
-        $product = $this->enity->create([
+        $product = $this->model->create([
             'name' => $data['name'],
             'price' => $data['price'],
             'description' => $data['description'],

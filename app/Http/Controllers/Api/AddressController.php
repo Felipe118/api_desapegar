@@ -11,10 +11,9 @@ use Illuminate\Http\Request;
 class AddressController extends Controller
 {
 
-    public function __construct(AddressRepository $address)
-    {
-        $this->repository = $address;
-    }
+    public function __construct(
+        protected AddressRepository $repository,
+    ){}
     /**
      * Display a listing of the resource.
      *
@@ -62,9 +61,9 @@ class AddressController extends Controller
      */
     public function update(AddressRequest $request, $id)
     {
-        $address = $this->repository->update($id,$request->all());
+        $address = $this->repository->update($request->all(),$id);
  
-       return new AddressResource($address);
+        return new AddressResource($address);
     }
 
     /**

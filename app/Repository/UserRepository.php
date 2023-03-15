@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
-   public function __construct(User $user) 
-   {
-        $this->model = $user;
-   }
+   public function __construct(
+    protected User $model
+   ){}
 
    /**
     * findAll users
@@ -55,17 +54,4 @@ class UserRepository
 
         return $user;
    }
-
-//    /**
-//     * delete user 
-//     * @param int $id
-//     */
-
-//    public function delete($id)
-//    {
-//         $user = $this->model->findOrFail($id);
-//         $user->delete();
-
-//         return response()->json(['message' => 'Usuário deletado com sucesso'], 200);
-//    }
 }
