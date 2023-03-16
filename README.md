@@ -40,4 +40,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## 🛠️ Abrir e rodar o projeto
 
-**Apresente as instruções necessárias para abrir e executar o projeto**
+**Instruções necessárias para abrir e executar o projeto**
