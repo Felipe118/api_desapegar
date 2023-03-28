@@ -1,14 +1,14 @@
 version: "3.7"
 services:
     # image project
-    laravel_8:
+    app:
         build: 
             args: 
                 user: luis
                 uid: 1000
             context: ./
             dockerfile: Dockerfile
-        image: laravel-app
+        #image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
