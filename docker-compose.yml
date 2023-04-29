@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     # image project
-    app:
+    laravel_8:
         build: 
             args: 
                 user: luis
